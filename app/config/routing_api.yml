@@ -1,0 +1,6 @@
+blog_posts:
+    type: rest
+    resource: AppBundle\Controller\BlogPostsController
+dash_board:
+    type: rest
+    resource: AppBundle\Controller\DashBoardController
