@@ -4,8 +4,8 @@ security:
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory:
-            memory: ~
+        sso_provider:
+            id: natacha.sso_user_provider
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -16,8 +16,14 @@ security:
         api_docs:
             pattern: ^/doc
             anonymous: true
+            
+        secured-area:
+            security: true
+            
+            guard:
+                authenticators:
+                    - natacha.sso_authenticator
 
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/doc,   roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/,      roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/,      roles: ROLE_REDACTEUR }

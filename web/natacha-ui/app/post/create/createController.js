@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.blogPost')
+angular.module('app.post')
 
     .controller('createController', ['$scope', 'Api', '$window', function($scope, Api, $window) {
 

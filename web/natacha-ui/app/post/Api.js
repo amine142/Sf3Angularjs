@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('app.blogPost')
+angular.module('app.post')
         .factory('Api', [
         '$http',
         function ($http) {
 
-            var ROOT_URL = '/app_dev.php/posts';
+            var ROOT_URL = BASE_URL+'posts';
 
             function get(id) {
                 return $http.get(ROOT_URL + '/' + id);

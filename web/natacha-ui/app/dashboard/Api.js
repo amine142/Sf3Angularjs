@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('app.blogPost')
+angular.module('app.dashboard')
         .factory('Api', [
         '$http',
         function ($http) {
 
-            var ROOT_URL = '/app_dev.php/dashboard';
+            var ROOT_URL = BASE_URL+'dashboard';
 
             
             function getAll() {
@@ -13,13 +13,28 @@ angular.module('app.blogPost')
             }
 
             return {
+                getAll: getAll,
+            }
+
+        }
+    ]);
+ angular.module('app.dashboard')
+        .factory('Menu', [
+        '$http',
+        function ($http) {
+
+            var ROOT_URL = BASE_URL+'dashboard/menu';
+
+            
+            function getAll() {
+                return $http.get(ROOT_URL);
+            }
+           
+            return {
                 getAll: getAll
             }
 
         }
     ]);
-    
-
-
-    
+       
        

@@ -2,10 +2,18 @@
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
 #    parameter_name: value
-
+    natacha.sso_user_provider.class: AppBundle\Services\Sso\SsoUserProvider
+    natacha.sso_authenticator.class: AppBundle\Services\Sso\SsoAuthenticator
+    
 services:
     crv.doctrine_entity_repository.blog_post:
         class: Doctrine\ORM\EntityRepository
         factory: ["@doctrine", getRepository]
         arguments:
             - AppBundle\Entity\BlogPost
+    natacha.sso_user_provider:
+        class: %natacha.sso_user_provider.class%
+        arguments: ["@doctrine.orm.entity_manager", "@service_container"]
+    natacha.sso_authenticator:
+        class: %natacha.sso_authenticator.class%
+        arguments: ["@router", "@kernel", "@logger", "%sso%", "@service_container"]

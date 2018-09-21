@@ -24,3 +24,7 @@ parameters:
     # nelmio api docs
     api_name: 'Your API name'
     api_description: 'The full description of your API'
+   
+    # ldap sso params for devel
+    user_email: nom.prenom@test.local
+    user_roles: 'NATACHA:REDACTEUR#2'

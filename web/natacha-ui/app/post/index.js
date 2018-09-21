@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.blogPost', ['ngRoute', 'ngLoadingSpinner'])
+angular.module('app.post', ['ngRoute', 'ngLoadingSpinner'])
 
     .config(['$routeProvider', function($routeProvider) {
 

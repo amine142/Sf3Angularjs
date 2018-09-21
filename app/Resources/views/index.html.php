@@ -12,8 +12,10 @@
   <link rel="stylesheet" href="../natacha-ui/app/bower_components/html5-boilerplate/dist/css/normalize.css">
   <link rel="stylesheet" href="../natacha-ui/app/bower_components/html5-boilerplate/dist/css/main.css">
   <link rel="stylesheet" href="../natacha-ui/app/app.css">
-  <script src="../natacha-ui/app/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="../natacha-ui/app/bower_components/bootstrap/dist/css/bootstrap.min.css" >
+  <link rel="stylesheet" href="../natacha-ui/app/bower_components/angular-bootstrap/ui-bootstrap-csp.css" >
+  <link rel="stylesheet" href="../natacha-ui/app/bower_components/angular-bootstrap-utils/ui-bootstrap-csp.css" >
+  <link rel="stylesheet" href="../natacha-ui/app/bower_components/datatables/media/css/jquery.dataTables.css" >
 </head>
 <body>
     <span us-spinner="{radius:30, width:8, length: 16}"></span>
@@ -24,8 +26,7 @@
   <nav class="navbar navbar-default navbar-fixed-top {{active}}">
     <div class="container">
       <div class="navbar-header">
-        <a class="navbar-brand dashboard" href="<?php echo $view['router']->path('home_page') ?>#!/dashboard" ng-click="active='dashboard'">Angular CRUD</a>
-        <a href="<?php echo $view['router']->path('home_page') ?>#!/post" class="navbar-brand post" ng-click="active='post'">Post</a>
+          <menu></menu>
       </div>
     </div>
   </nav>
@@ -39,22 +40,29 @@
     </div>
 
   </div><!-- /.container -->
-
- 
-  
-  <script src="../natacha-ui/app/bower_components/angular/angular.js"></script>
-  <script src="../natacha-ui/app/bower_components/angular-route/angular-route.js"></script>
+ <script type="text/javascript">
+ var BASE_URL = "<?php echo  $view['router']->path('home_page')  ?>";
+ </script>
+  <script type="text/javascript" src="../natacha-ui/app/bower_components/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+   <script type="text/javascript" src="../natacha-ui/app/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/bower_components/angular/angular.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/bower_components/angular-route/angular-route.js"></script>
   <script type="text/javascript" src="../natacha-ui/app/bower_components/spin.js/spin.js"></script>
-  <script type="text/javascript" src="../natacha-ui/app/bower_components/angular-spinner/dist/angular-spinner.min.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/bower_components/angular-spinner/angular-spinner.js"></script>
   <script type="text/javascript" src="../natacha-ui/app/bower_components/angular-loading-spinner/angular-loading-spinner.js"></script>
-  <script src="../natacha-ui/app/app.js"></script>
-  <script src="../natacha-ui/app/blogPost/index.js"></script>
-  <script src="../natacha-ui/app/dashboard/Api.js"></script>
-   <script src="../natacha-ui/app/dashboard/index.js"></script>
-  <script src="../natacha-ui/app/blogPost/Api.js"></script>
-  <script src="../natacha-ui/app/blogPost/list/listController.js"></script>
-  <script src="../natacha-ui/app/blogPost/create/createController.js"></script>
-  <script src="../natacha-ui/app/blogPost/update/updateController.js"></script>
-  <script src="../natacha-ui/app/dashboard/get/layoutController.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/app.js"></script> 
+  <script type="text/javascript" src="../natacha-ui/app/dashboard/index.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/dashboard/Api.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/dashboard/get/layoutController.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/post/index.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/post/Api.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/post/list/listController.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/post/create/createController.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/post/update/updateController.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/component/component.js"></script>
 </body>
 </html>

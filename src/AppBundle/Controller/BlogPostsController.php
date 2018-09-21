@@ -18,6 +18,7 @@ use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class BlogPostsController
@@ -42,6 +43,7 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
      *         404 = "Return when not found"
      *     }
      * )
+     * @Security("has_role('ROLE_REDACTEUR')")
      */
     public function getAction(int $id)
     {

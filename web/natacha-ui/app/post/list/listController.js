@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.blogPost')
+angular.module('app.post')
 
 .controller('listController', ['$scope', 'Api', '$filter', function($scope, Api, $filter) {
 

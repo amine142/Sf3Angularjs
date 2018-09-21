@@ -28,7 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class DashBoardController extends FOSRestController implements ClassResourceInterface
 {
     /**
-     * Gets an individual Blog Post
+     * Gets an individual Dashboard
      *
      * @param int $id
      * @return mixed
@@ -36,7 +36,7 @@ class DashBoardController extends FOSRestController implements ClassResourceInte
      * @throws \Doctrine\ORM\NonUniqueResultException
      *
      * @ApiDoc(
-     *     output="AppBundle\Entity\BlogPost",
+     *     output="AppBundle\Entity\Dashboard",
      *     statusCodes={
      *         200 = "Returned when successful",
      *         404 = "Return when not found"
@@ -46,9 +46,25 @@ class DashBoardController extends FOSRestController implements ClassResourceInte
     public function getAction()
     {
         
-        
         return [];
     }
-
+    /**
+     * Gets individial Menu for logged in User
+     *
+     * @param int $id User id
+     * @return mixed
     
+     *
+     * @ApiDoc(
+     *     statusCodes={
+     *         200 = "Returned when successful",
+     *         404 = "Return when not found"
+     *     }
+     * )
+     */
+    public function getMenuAction()
+    {
+        
+        return [["title" => "post", "href" => "post"], ["title" => "affaire", "href"=> "affaire"]];
+    }
 }

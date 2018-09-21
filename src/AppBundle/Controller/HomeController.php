@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Class HomeController
@@ -23,6 +24,7 @@ class HomeController extends Controller
      * @param Request $request
      * @return mixed
      * @Route("/", name="home_page")
+     * @Security("has_role('ROLE_REDACTEUR')")
      */
     public function indextAction(Request $request)
     {
@@ -39,12 +41,15 @@ class HomeController extends Controller
      */
     public function routeAction(Request $request)
     {
-        $entity = $request->get('entity');
+	$entity = $request->get('entity');
         $action = $request->get('action');
         $sub_action = $request->get('sub_action');
-        
-        return $this->render($entity.'/'.$action.'/'.$sub_action.'.php');
-        
+        try{
+            $response = $this->render($entity.'/'.$action.'/'.$sub_action.'.php');
+        }catch(\Exception $e) {
+            $response = new JsonResponse('template note found', '404');
+        }
+        return $response ;
     }
 
 }

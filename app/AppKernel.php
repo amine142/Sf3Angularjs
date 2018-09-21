@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Nelmio\CorsBundle\NelmioCorsBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
 
             new AppBundle\AppBundle(),
         ];
@@ -41,14 +42,19 @@ class AppKernel extends Kernel
     }
 
     public function getCacheDir()
-    {
-        return dirname(__DIR__).'/var/cache/'.$this->getEnvironment();
-    }
-
-    public function getLogDir()
-    {
-        return dirname(__DIR__).'/var/logs';
-    }
+	{
+		if (in_array($this->environment, array('dev', 'test'))) {
+			return '/dev/shm/natacha/cache/' .  $this->environment;
+		}
+		return parent::getCacheDir();
+	}
+	public function getLogDir()
+	{
+		if (in_array($this->environment, array('dev', 'test'))) {
+			return '/dev/shm/natacha/logs';
+		}
+		return parent::getLogDir();
+	}
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {

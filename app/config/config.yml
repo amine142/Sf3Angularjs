@@ -7,6 +7,17 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
+    sso:
+        profil_groupe: natacha
+        profil_admin: ROLE_ADMINISTRATEUR
+        attributs:
+            username: logonId #Identifiant unique de connexion. Correspond à l'identifiant de connexion utilisé sur le poste de travail. Cet identifiant est aussi utilisé pour l'authentification de la personne dans les applications et pour la connexion au SSO.
+            nom: sn
+            prenom: givenName
+            civilite: PersonalTitle
+            uid: uid #Identifiant unique interne LDAP, généré aléatoirement (commun avec Harmonie et AD pour les agents internes au ministère, commun avec AD pour les externes)
+            email: mail
+            droits: droits
 
 framework:
     #esi:             ~
@@ -20,7 +31,7 @@ framework:
     validation:      { enable_annotations: true }
     #serializer:      { enable_annotations: true }
     templating:
-        engines: [ 'php']
+        engines: ['twig', 'php']
     default_locale:  "%locale%"
     trusted_hosts:   ~
     trusted_proxies: ~
@@ -117,3 +128,9 @@ fos_rest:
             - { path: ^/, priorities: [ json, jsonp ], fallback_format: ~, prefer_extension: true }
     exception:
         enabled: true
+
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/../DataMigrations" # Nom du dossier d'enregistrement des migrations.
+    namespace: App\DoctrineMigrations                # namespaces des fichiers qui seront crées.
+    table_name: migration_versions                   # Nom de la table d'enregistrement des versions de migrations
+    name: App Migrations
