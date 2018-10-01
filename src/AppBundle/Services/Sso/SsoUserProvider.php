@@ -35,7 +35,10 @@ class SsoUserProvider implements UserProviderInterface{
      * @param type $username
      * @throws UsernameNotFoundException
      */
-    public function loadUserByUsername($username){}
+    public function loadUserByUsername($username)
+    {
+        
+    }
     
     /**
      * Génére un user à partir de son mail et compléte les données de la base à l'aide du tableau $additionnalInfos
@@ -43,12 +46,13 @@ class SsoUserProvider implements UserProviderInterface{
      * @param type $additionnalInfos (informations non persistées en base de données)
      * @return User
      */
-    public function loadUserByMail($email, $additionnalInfos){
+    public function loadUserByMail($email, $additionnalInfos)
+    {
         
         $user = $this->em->getRepository('AppBundle:User')->getOneByEmailCI($email);
         
         if (!$user){
-            throw new UsernameNotFoundException(sprintf('Aucun utilisateur avec l\'email "%s" existe dans la base de données d\'NATACHA', $email));
+            throw new UsernameNotFoundException(sprintf('Aucun utilisateur avec l\'email "%s" existe dans la base de données de NATACHA', $email));
         }
         
         //ajouter les autres attributs
@@ -107,7 +111,8 @@ class SsoUserProvider implements UserProviderInterface{
      *
      * @throws UnsupportedUserException if the account is not supported
      */
-    public function refreshUser(UserInterface $user){
+    public function refreshUser(UserInterface $user)
+    {
         return $user;
     }
 
@@ -118,8 +123,9 @@ class SsoUserProvider implements UserProviderInterface{
      *
      * @return bool
      */
-    public function supportsClass($class){
-        return $class === 'AppBundle\Entity\Redacteur';
+    public function supportsClass($class)
+    {
+        return $class === 'AppBundle\Entity\User';
     }
     
     

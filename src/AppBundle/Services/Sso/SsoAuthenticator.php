@@ -30,7 +30,8 @@ class SsoAuthenticator extends AbstractGuardAuthenticator {
 
     private $container;
     
-    public function __construct(Router $router, Kernel $kernel, Logger $logger, $sso, ContainerInterface $container) {
+    public function __construct(Router $router, Kernel $kernel, Logger $logger, $sso, ContainerInterface $container) 
+    {
         $this->kernel = $kernel;
         $this->router = $router;
         $this->logger = $logger;
@@ -42,7 +43,8 @@ class SsoAuthenticator extends AbstractGuardAuthenticator {
      * Called on every request. Return whatever credentials you want,
      * or null to stop authentication.
      */
-    public function getCredentials(Request $request){
+    public function getCredentials(Request $request)
+    {
 
         $credentials = array();
         
@@ -78,11 +80,13 @@ class SsoAuthenticator extends AbstractGuardAuthenticator {
 
     }
 
-    public function getUser($credentials, UserProviderInterface $userProvider){
+    public function getUser($credentials, UserProviderInterface $userProvider)
+    {
         return $userProvider->loadUserByMail($credentials['email'], $credentials);
     }
 
-    public function checkCredentials($credentials, UserInterface $user){
+    public function checkCredentials($credentials, UserInterface $user)
+    {
         return true;
     }
 
@@ -100,12 +104,14 @@ class SsoAuthenticator extends AbstractGuardAuthenticator {
     /**
      * Called when authentication is needed, but it's not sent
      */
-    public function start(Request $request, AuthenticationException $authException = null){
+    public function start(Request $request, AuthenticationException $authException = null)
+    {
         $this->logger->error('AUTHENTICATION FAILURE: ' . var_export($request->headers->all(), true));
         throw new AccessDeniedHttpException();
     }
 
-    public function supportsRememberMe(){
+    public function supportsRememberMe()
+    {
         return false;
     }
 
@@ -113,7 +119,8 @@ class SsoAuthenticator extends AbstractGuardAuthenticator {
     /*
      * Fonction de récupération des droits de la personne
      */
-    private function extractCredentials($entete_profil) {
+    private function extractCredentials($entete_profil) 
+    {
 
         $credentials = array();
 
@@ -136,7 +143,8 @@ class SsoAuthenticator extends AbstractGuardAuthenticator {
     /*
      * Fonction d'ajout d'entêtes HTTP renvoyés pour le SSO: bouchon 
      */
-    private function addSSOHeaders(Request $request) {
+    private function addSSOHeaders(Request $request) 
+    {
         
         foreach (['user_email','user_roles'] as $tag){
             // vérifie si un parametre est défini et renseigné
