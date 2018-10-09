@@ -62,6 +62,6 @@ class DashBoardController extends FOSRestController implements ClassResourceInte
     public function getMenuAction()
     {
         
-        return [["title" => "dossier", "href" => "dossiers"], ["title" => "affaire", "href"=> "affaire"]];
+        return [["title" => "dossier", "href" => "dossiers"]];
     }
 }

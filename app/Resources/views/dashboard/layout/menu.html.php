@@ -1,2 +1,2 @@
-<a href="<?php echo $view['router']->path('home_page') ?>#!/dashboard" class="navbar-brand {{ this.actif }}" ng-click="setActif(this)">NATACHA</a>
+<a href="<?php echo $view['router']->path('home_page') ?>#!/dashboard" class="navbar-brand {{ this.actif }}" ng-click="setActif(this)">Accueil</a>
 <a ng-repeat="m  in menus" class="navbar-brand {{ m.actif }}"  ng-click="setActif(m)" style="text-transform: capitalize;" href="<?php echo $view['router']->path('home_page') ?>#!/{{ m.href }}" >{{ m.title }}</a>
