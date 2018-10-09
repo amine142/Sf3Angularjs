@@ -2,9 +2,9 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\BlogPost;
-use AppBundle\Entity\Repository\BlogPostRepository;
-use AppBundle\Form\Type\BlogPostType;
+use AppBundle\Entity\Dossier;
+use AppBundle\Entity\Repository\DossierRepository;
+use AppBundle\Form\Type\DossierType;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\View\RouteRedirectView;
@@ -21,15 +21,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
- * Class BlogPostsController
+ * Class DossierController
  * @package AppBundle\Controller
  *
- * @RouteResource("post")
+ * @RouteResource("dossier")
  */
-class BlogPostsController extends FOSRestController implements ClassResourceInterface
+class DossierController extends FOSRestController implements ClassResourceInterface
 {
     /**
-     * Gets an individual Blog Post
+     * Gets an individual Dossier
      *
      * @param int $id
      * @return mixed
@@ -37,7 +37,7 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
      * @throws \Doctrine\ORM\NonUniqueResultException
      *
      * @ApiDoc(
-     *     output="AppBundle\Entity\BlogPost",
+     *     output="AppBundle\Entity\Dossier",
      *     statusCodes={
      *         200 = "Returned when successful",
      *         404 = "Return when not found"
@@ -47,22 +47,22 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
      */
     public function getAction(int $id)
     {
-        $blogPost = $this->getBlogPostRepository()->createFindOneByIdQuery($id)->getSingleResult();
+        $dossier = $this->getDossierRepository()->createFindOneByIdQuery($id)->getSingleResult();
         
-        if ($blogPost === null) {
+        if ($dossier === null) {
             return new View(null, Response::HTTP_NOT_FOUND);
         }
         
-        return $blogPost;
+        return $dossier;
     }
 
     /**
-     * Gets a collection of BlogPosts
+     * Gets a collection of Dossier
      *
      * @return array
      *
      * @ApiDoc(
-     *     output="AppBundle\Entity\BlogPost",
+     *     output="AppBundle\Entity\Dossier",
      *     statusCodes={
      *         200 = "Returned when successful",
      *         404 = "Return when not found"
@@ -71,7 +71,7 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
      */
     public function cgetAction()
     {
-        return $this->getBlogPostRepository()->createFindAllQuery()->getResult();
+        return $this->getDossierRepository()->createFindAllQuery()->getResult();
     }
 
     /**
@@ -79,17 +79,17 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
      * @return View|\Symfony\Component\Form\Form
      *
      * @ApiDoc(
-     *     input="AppBundle\Form\Type\BlogPostType",
-     *     output="AppBundle\Entity\BlogPost",
+     *     input="AppBundle\Form\Type\DossierType",
+     *     output="AppBundle\Entity\Dossier",
      *     statusCodes={
-     *         201 = "Returned when a new BlogPost has been successful created",
+     *         201 = "Returned when a new Dossier has been successful created",
      *         404 = "Return when not found"
      *     }
      * )
      */
     public function postAction(Request $request)
     {
-        $form = $this->createForm(BlogPostType::class, null, [
+        $form = $this->createForm(DossierType::class, null, [
             'csrf_protection' => false,        
         ]);
         
@@ -100,20 +100,20 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
         }
 
         /**
-         * @var $blogPost BlogPost
+         * @var $dossier Dossier
          */
-        $blogPost = $form->getData();
+        $dossier = $form->getData();
         
         $em = $this->getDoctrine()->getManager();
-        $em->persist($blogPost);
+        $em->persist($dossier);
         $em->flush();
 
         $routeOptions = [
-            'id' => $blogPost->getId(),
+            'id' => $dossier->getId(),
             '_format' => $request->get('_format'),
         ];
 
-        return $this->routeRedirectView('get_post', $routeOptions, Response::HTTP_CREATED);
+        return $this->routeRedirectView('get_dossiers', $routeOptions, Response::HTTP_CREATED);
     }
 
     /**
@@ -122,10 +122,10 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
      * @return View|\Symfony\Component\Form\Form
      *
      * @ApiDoc(
-     *     input="AppBundle\Form\Type\BlogPostType",
-     *     output="AppBundle\Entity\BlogPost",
+     *     input="AppBundle\Form\Type\DossierType",
+     *     output="AppBundle\Entity\Dossier",
      *     statusCodes={
-     *         204 = "Returned when an existing BlogPost has been successful updated",
+     *         204 = "Returned when an existing Dossier has been successful updated",
      *         400 = "Return when errors",
      *         404 = "Return when not found"
      *     }
@@ -134,15 +134,15 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
     public function putAction(Request $request, int $id)
     {
         /**
-         * @var $blogPost BlogPost
+         * @var $dossier Dossier
          */
-        $blogPost = $this->getBlogPostRepository()->find($id);
+        $dossier = $this->getDossierRepository()->find($id);
 
-        if ($blogPost === null) {
+        if ($dossier === null) {
             return new View(null, Response::HTTP_NOT_FOUND);
         }
 
-        $form = $this->createForm(BlogPostType::class, $blogPost, [
+        $form = $this->createForm(DossierType::class, $dossier, [
             'csrf_protection' => false,
         ]);
 
@@ -156,11 +156,11 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
         $em->flush();
 
         $routeOptions = [
-            'id' => $blogPost->getId(),
+            'id' => $dossier->getId(),
             '_format' => $request->get('_format'),
         ];
 
-        return $this->routeRedirectView('get_post', $routeOptions, Response::HTTP_NO_CONTENT);
+        return $this->routeRedirectView('get_dossiers', $routeOptions, Response::HTTP_NO_CONTENT);
     }
 
 
@@ -170,10 +170,10 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
      * @return View|\Symfony\Component\Form\Form
      *
      * @ApiDoc(
-     *     input="AppBundle\Form\Type\BlogPostType",
-     *     output="AppBundle\Entity\BlogPost",
+     *     input="AppBundle\Form\Type\DossierType",
+     *     output="AppBundle\Entity\Dossier",
      *     statusCodes={
-     *         204 = "Returned when an existing BlogPost has been successful updated",
+     *         204 = "Returned when an existing Dossier has been successful updated",
      *         400 = "Return when errors",
      *         404 = "Return when not found"
      *     }
@@ -182,15 +182,15 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
     public function patchAction(Request $request, int $id)
     {
         /**
-         * @var $blogPost BlogPost
+         * @var $dossier Dossier
          */
-        $blogPost = $this->getBlogPostRepository()->find($id);
+        $dossier = $this->getDossierRepository()->find($id);
 
-        if ($blogPost === null) {
+        if ($dossier === null) {
             return new View(null, Response::HTTP_NOT_FOUND);
         }
 
-        $form = $this->createForm(BlogPostType::class, $blogPost, [
+        $form = $this->createForm(DossierType::class, $dossier, [
             'csrf_protection' => false,
         ]);
 
@@ -204,11 +204,11 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
         $em->flush();
 
         $routeOptions = [
-            'id' => $blogPost->getId(),
+            'id' => $dossier->getId(),
             '_format' => $request->get('_format'),
         ];
 
-        return $this->routeRedirectView('get_post', $routeOptions, Response::HTTP_NO_CONTENT);
+        return $this->routeRedirectView('get_dossiers', $routeOptions, Response::HTTP_NO_CONTENT);
     }
 
 
@@ -218,7 +218,7 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
      *
      * @ApiDoc(
      *     statusCodes={
-     *         204 = "Returned when an existing BlogPost has been successful deleted",
+     *         204 = "Returned when an existing Dossier has been successful deleted",
      *         404 = "Return when not found"
      *     }
      * )
@@ -226,26 +226,26 @@ class BlogPostsController extends FOSRestController implements ClassResourceInte
     public function deleteAction(int $id)
     {
         /**
-         * @var $blogPost BlogPost
+         * @var $dossier Dossier
          */
-        $blogPost = $this->getBlogPostRepository()->find($id);
+        $dossier = $this->getDossierRepository()->find($id);
 
-        if ($blogPost === null) {
+        if ($dossier === null) {
             return new View(null, Response::HTTP_NOT_FOUND);
         }
 
         $em = $this->getDoctrine()->getManager();
-        $em->remove($blogPost);
+        $em->remove($dossier);
         $em->flush();
 
         return new View(null, Response::HTTP_NO_CONTENT);
     }
 
     /**
-     * @return BlogPostRepository
+     * @return DossierRepository
      */
-    private function getBlogPostRepository()
+    private function getDossierRepository()
     {
-        return $this->get('crv.doctrine_entity_repository.blog_post');
+        return $this->get('crv.doctrine_entity_repository.dossiers');
     }
 }

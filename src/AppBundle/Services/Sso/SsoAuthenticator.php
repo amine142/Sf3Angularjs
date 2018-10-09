@@ -4,7 +4,8 @@ namespace AppBundle\Services\Sso;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Symfony\Component\Security\Guard\Token\PostAuthenticationGuardToken;
+use Symfony\Component\Security\Guard\AuthenticatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -14,7 +15,8 @@ use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
-class SsoAuthenticator extends AbstractGuardAuthenticator {
+class SsoAuthenticator implements AuthenticatorInterface
+{
 
     /**
      * Tableau contenant les paramètres de configuraiton du sso
@@ -77,7 +79,6 @@ class SsoAuthenticator extends AbstractGuardAuthenticator {
         }
         
         return $credentials;
-
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
@@ -170,5 +171,35 @@ class SsoAuthenticator extends AbstractGuardAuthenticator {
         
     }
 
-    
+     /**
+     * Shortcut to create a PostAuthenticationGuardToken for you, if you don't really
+     * care about which authenticated token you're using.
+     *
+     * @param UserInterface $user
+     * @param string        $providerKey
+     *
+     * @return PostAuthenticationGuardToken
+     */
+    public function createAuthenticatedToken(UserInterface $user, $providerKey)
+    {
+        return new PostAuthenticationGuardToken(
+            $user,
+            $providerKey,
+            $user->getRoles()
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supports(Request $request)
+    {
+        $env = $this->kernel->getEnvironment();
+        
+        if ($env == 'dev') {
+            return true;
+        }
+        return false;
+    }
+
 }

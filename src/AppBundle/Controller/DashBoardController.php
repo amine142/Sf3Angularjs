@@ -2,9 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\BlogPost;
-use AppBundle\Entity\Repository\BlogPostRepository;
-use AppBundle\Form\Type\BlogPostType;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\View\RouteRedirectView;
@@ -65,6 +62,6 @@ class DashBoardController extends FOSRestController implements ClassResourceInte
     public function getMenuAction()
     {
         
-        return [["title" => "post", "href" => "post"], ["title" => "affaire", "href"=> "affaire"]];
+        return [["title" => "dossier", "href" => "dossiers"], ["title" => "affaire", "href"=> "affaire"]];
     }
 }

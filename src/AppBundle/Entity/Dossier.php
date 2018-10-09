@@ -6,11 +6,11 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMSSerializer;
 
 /**
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\BlogPostRepository")
- * @ORM\Table(name="blog_post")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\DossierRepository")
+ * @ORM\Table(name="dossier")
  * @JMSSerializer\ExclusionPolicy("all")
  */
-class BlogPost implements \JsonSerializable
+class Dossier implements \JsonSerializable
 {
     /**
      * @ORM\Column(type="integer")
@@ -51,7 +51,7 @@ class BlogPost implements \JsonSerializable
 
     /**
      * @param mixed $title
-     * @return BlogPost
+     * @return Dossier
      */
     public function setTitle($title)
     {
@@ -70,7 +70,7 @@ class BlogPost implements \JsonSerializable
 
     /**
      * @param mixed $body
-     * @return BlogPost
+     * @return Dossier
      */
     public function setBody($body)
     {

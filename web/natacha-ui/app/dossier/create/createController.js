@@ -1,19 +1,22 @@
 'use strict';
 
-angular.module('app.post')
+angular.module('app.dossier')
 
     .controller('createController', ['$scope', 'Api', '$window', function($scope, Api, $window) {
 
-        $scope.blogPost = {};
+        $scope.dossier = {};
 
-        $scope.create = function (blogPost) {
+        $scope.create = function (dossier) {
 
-            Api.post(blogPost)
+            Api.post(dossier)
                 .then(function (result) {
                     console.log('result', result);
-                    $window.location.href = '#!post';
+                    $window.location.href = '#!dossiers';
                 }, function (error) {
                     console.log('error', error);
                 })
+        };
+        $scope.back = function() { 
+            window.history.back();
         };
     }]);

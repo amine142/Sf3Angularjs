@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.post')
+angular.module('app.dossier')
 
     .controller('updateController', [
         '$scope',
@@ -9,26 +9,30 @@ angular.module('app.post')
         '$routeParams',
         function($scope, Api, $window, $routeParams) {
 
-        $scope.blogPost = {};
+        $scope.dossier = {};
 
         Api.get($routeParams.id)
             .then(function (response) {
                 console.log('response', response);
-                $scope.blogPost = response.data;
+                $scope.dossier = response.data;
             }, function (error) {
                 console.log('error', error);
             });
 
 
-        $scope.update = function (blogPost) {
+        $scope.update = function (dossier) {
 
-            Api.put(blogPost.id, blogPost)
+            Api.put(dossier.id, dossier)
                 .then(function (response) {
                     console.log('response', response);
-                    $window.location.href = '#!post';
+                    $window.location.href = '#!dossiers';
                 }, function (error) {
                     console.log('error', error);
                 });
 
+        };
+        
+        $scope.back = function() { 
+            window.history.back();
         };
     }]);

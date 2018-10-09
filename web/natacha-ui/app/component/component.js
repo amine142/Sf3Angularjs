@@ -17,6 +17,18 @@ angular.module('app.dashboard').component('menu', {
       }, function (error) {
         console.log('error', error);
       });
+      
+      $scope.setActif = function(item){
+          var navbars = $(".navbar-brand");
+        navbars.each(function(){
+           
+           if ($(this).text() !== item.href ){ 
+             angular.element($(".navbar-brand")).removeClass("actif");
+            }
+        });
+         item.actif = 'actif';
+      }
+      
   }
 });
 

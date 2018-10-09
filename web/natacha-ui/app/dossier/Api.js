@@ -1,11 +1,11 @@
 'use strict';
 
-angular.module('app.post')
+angular.module('app.dossier')
         .factory('Api', [
         '$http',
         function ($http) {
 
-            var ROOT_URL = BASE_URL+'posts';
+            var ROOT_URL = BASE_URL+'dossiers';
 
             function get(id) {
                 return $http.get(ROOT_URL + '/' + id);
@@ -15,8 +15,8 @@ angular.module('app.post')
                 return $http.get(ROOT_URL);
             }
 
-            function post(blogPost) {
-                return $http.post(ROOT_URL, blogPost);
+            function post(dossier) {
+                return $http.post(ROOT_URL, dossier);
             }
 
             function put(id, data) {

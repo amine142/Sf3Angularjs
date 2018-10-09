@@ -1,6 +1,6 @@
-blog_posts:
+dossier:
     type: rest
-    resource: AppBundle\Controller\BlogPostsController
+    resource: AppBundle\Controller\DossierController
 dash_board:
     type: rest
     resource: AppBundle\Controller\DashBoardController
