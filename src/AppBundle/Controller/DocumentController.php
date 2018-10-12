@@ -2,9 +2,9 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Dossier;
-use AppBundle\Entity\Repository\DossierRepository;
-use AppBundle\Form\Type\DossierType;
+use AppBundle\Entity\Document;
+use AppBundle\Entity\Repository\DocumentRepository;
+use AppBundle\Form\Type\DocumentType;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\View\RouteRedirectView;
@@ -21,15 +21,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
- * Class DossierController
+ * Class DocumentController
  * @package AppBundle\Controller
  *
- * @RouteResource("dossier")
+ * @RouteResource("document")
  */
-class DossierController extends FOSRestController implements ClassResourceInterface
+class DocumentController extends FOSRestController implements ClassResourceInterface
 {
     /**
-     * Gets an individual Dossier
+     * Gets an individual Document
      *
      * @param int $id
      * @return mixed
@@ -37,7 +37,7 @@ class DossierController extends FOSRestController implements ClassResourceInterf
      * @throws \Doctrine\ORM\NonUniqueResultException
      *
      * @ApiDoc(
-     *     output="AppBundle\Entity\Dossier",
+     *     output="AppBundle\Entity\Document",
      *     statusCodes={
      *         200 = "Returned when successful",
      *         404 = "Return when not found"
@@ -47,26 +47,22 @@ class DossierController extends FOSRestController implements ClassResourceInterf
      */
     public function getAction(int $id)
     {
-        $dossier = $this->getDossierRepository()->createFindOneByIdQuery($id)->getSingleResult();
+        $document = $this->getDocumentRepository()->createFindOneByIdQuery($id)->getSingleResult();
         
-        if ($dossier === null) {
+        if ($document === null) {
             return new View(null, Response::HTTP_NOT_FOUND);
         }
         
-        $collection = unserialize(base64_decode($dossier->getDocuments()));
-        
-        $dossier->setDocuments($collection);
-        
-        return $dossier;
+        return $document;
     }
 
     /**
-     * Gets a collection of Dossier
+     * Gets a collection of Document
      *
      * @return array
      *
      * @ApiDoc(
-     *     output="AppBundle\Entity\Dossier",
+     *     output="AppBundle\Entity\Document",
      *     statusCodes={
      *         200 = "Returned when successful",
      *         404 = "Return when not found"
@@ -75,31 +71,35 @@ class DossierController extends FOSRestController implements ClassResourceInterf
      */
     public function cgetAction()
     {
-        $dossiers = $this->getDossierRepository()->createFindAllQuery()->getResult();
-        foreach ($dossiers as &$dossier){
-            $collection = unserialize(base64_decode($dossier->getDocuments()));
-            $dossier->setDocuments($collection);
-        }
+        $documents = $this->getDocumentRepository()->createFindAllQuery()->getResult();
       
-        return $dossiers;
+        return $documents;
     }
 
     /**
      * @param Request $request
+     * @param int     $id
+     * @param string     $item
      * @return View|\Symfony\Component\Form\Form
      *
      * @ApiDoc(
-     *     input="AppBundle\Form\Type\DossierType",
-     *     output="AppBundle\Entity\Dossier",
+     *     input="AppBundle\Form\Type\DocumentType",
+     *     output="AppBundle\Entity\Document",
      *     statusCodes={
-     *         201 = "Returned when a new Dossier has been successful created",
+     *         201 = "Returned when a new Document has been successful created",
      *         404 = "Return when not found"
      *     }
      * )
      */
-    public function postAction(Request $request)
+    public function postItemAction(Request $request, int $id, string $item)
     {
-        $form = $this->createForm(DossierType::class, null, [
+       
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle\\Entity\\'. ucfirst($item).'');
+        $object = $repository->find($id);
+        $documents = unserialize(base64_decode($object->getDocuments()));
+        
+        $form = $this->createForm(DocumentType::class, null, [
             'csrf_protection' => false,        
         ]);
         
@@ -110,22 +110,24 @@ class DossierController extends FOSRestController implements ClassResourceInterf
         }
 
         /**
-         * @var $dossier Dossier
+         * @var $document Document
          */
-        $dossier = $form->getData();
+        $document = $form->getData();
         
         $em = $this->getDoctrine()->getManager();
-        $documents = base64_encode(serialize($dossier->getDocuments()));
-        $dossier->setDocuments($documents);
-        $em->persist($dossier);
+        $em->persist($document);
+        $documents->add($document);
+        $serialized = base64_encode(serialize($documents));
+        $object->setDocuments($serialized);
+        $em->persist($object);
         $em->flush();
         
         $routeOptions = [
-            'id' => $dossier->getId(),
+            'id' => $document->getId(),
             '_format' => $request->get('_format'),
         ];
 
-        return $this->routeRedirectView('get_dossiers', $routeOptions, Response::HTTP_CREATED);
+        return $this->routeRedirectView('get_documents', $routeOptions, Response::HTTP_CREATED);
     }
 
     /**
@@ -134,10 +136,10 @@ class DossierController extends FOSRestController implements ClassResourceInterf
      * @return View|\Symfony\Component\Form\Form
      *
      * @ApiDoc(
-     *     input="AppBundle\Form\Type\DossierType",
-     *     output="AppBundle\Entity\Dossier",
+     *     input="AppBundle\Form\Type\DocumentType",
+     *     output="AppBundle\Entity\Document",
      *     statusCodes={
-     *         204 = "Returned when an existing Dossier has been successful updated",
+     *         204 = "Returned when an existing Document has been successful updated",
      *         400 = "Return when errors",
      *         404 = "Return when not found"
      *     }
@@ -146,17 +148,15 @@ class DossierController extends FOSRestController implements ClassResourceInterf
     public function putAction(Request $request, int $id)
     {
         /**
-         * @var $dossier Dossier
+         * @var $document Document
          */
-        $dossier = $this->getDossierRepository()->find($id);
+        $document = $this->getDocumentRepository()->find($id);
 
-        if ($dossier === null) {
+        if ($document === null) {
             return new View(null, Response::HTTP_NOT_FOUND);
         }
         
-        $documents = unserialize(base64_decode($dossier->getDocuments()));
-        $dossier->setDocuments($documents);
-        $form = $this->createForm(DossierType::class, $dossier, [
+        $form = $this->createForm(DocumentType::class, $document, [
             'csrf_protection' => false,
         ]);
 
@@ -168,17 +168,14 @@ class DossierController extends FOSRestController implements ClassResourceInterf
 
         
         $em = $this->getDoctrine()->getManager();
-        $documents = base64_encode(serialize($dossier->getDocuments()));
-        $dossier->setDocuments($documents);
-        $em->persist($dossier);
         $em->flush();
 
         $routeOptions = [
-            'id' => $dossier->getId(),
+            'id' => $document->getId(),
             '_format' => $request->get('_format'),
         ];
 
-        return $this->routeRedirectView('get_dossiers', $routeOptions, Response::HTTP_NO_CONTENT);
+        return $this->routeRedirectView('get_documents', $routeOptions, Response::HTTP_NO_CONTENT);
     }
 
 
@@ -188,10 +185,10 @@ class DossierController extends FOSRestController implements ClassResourceInterf
      * @return View|\Symfony\Component\Form\Form
      *
      * @ApiDoc(
-     *     input="AppBundle\Form\Type\DossierType",
-     *     output="AppBundle\Entity\Dossier",
+     *     input="AppBundle\Form\Type\DocumentType",
+     *     output="AppBundle\Entity\Document",
      *     statusCodes={
-     *         204 = "Returned when an existing Dossier has been successful updated",
+     *         204 = "Returned when an existing Document has been successful updated",
      *         400 = "Return when errors",
      *         404 = "Return when not found"
      *     }
@@ -200,15 +197,15 @@ class DossierController extends FOSRestController implements ClassResourceInterf
     public function patchAction(Request $request, int $id)
     {
         /**
-         * @var $dossier Dossier
+         * @var $document Document
          */
-        $dossier = $this->getDossierRepository()->find($id);
+        $document = $this->getDocumentRepository()->find($id);
 
-        if ($dossier === null) {
+        if ($document === null) {
             return new View(null, Response::HTTP_NOT_FOUND);
         }
 
-        $form = $this->createForm(DossierType::class, $dossier, [
+        $form = $this->createForm(DocumentType::class, $document, [
             'csrf_protection' => false,
         ]);
 
@@ -222,11 +219,11 @@ class DossierController extends FOSRestController implements ClassResourceInterf
         $em->flush();
 
         $routeOptions = [
-            'id' => $dossier->getId(),
+            'id' => $document->getId(),
             '_format' => $request->get('_format'),
         ];
 
-        return $this->routeRedirectView('get_dossiers', $routeOptions, Response::HTTP_NO_CONTENT);
+        return $this->routeRedirectView('get_documents', $routeOptions, Response::HTTP_NO_CONTENT);
     }
 
 
@@ -236,7 +233,7 @@ class DossierController extends FOSRestController implements ClassResourceInterf
      *
      * @ApiDoc(
      *     statusCodes={
-     *         204 = "Returned when an existing Dossier has been successful deleted",
+     *         204 = "Returned when an existing Document has been successful deleted",
      *         404 = "Return when not found"
      *     }
      * )
@@ -244,26 +241,26 @@ class DossierController extends FOSRestController implements ClassResourceInterf
     public function deleteAction(int $id)
     {
         /**
-         * @var $dossier Dossier
+         * @var $document Document
          */
-        $dossier = $this->getDossierRepository()->find($id);
+        $document = $this->getDocumentRepository()->find($id);
 
-        if ($dossier === null) {
+        if ($document === null) {
             return new View(null, Response::HTTP_NOT_FOUND);
         }
 
         $em = $this->getDoctrine()->getManager();
-        $em->remove($dossier);
+        $em->remove($document);
         $em->flush();
 
         return new View(null, Response::HTTP_NO_CONTENT);
     }
 
     /**
-     * @return DossierRepository
+     * @return DocumentRepository
      */
-    private function getDossierRepository()
+    private function getDocumentRepository()
     {
-        return $this->get('crv.doctrine_entity_repository.dossiers');
+        return $this->get('crv.doctrine_entity_repository.documents');
     }
 }

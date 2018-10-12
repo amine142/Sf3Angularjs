@@ -53,6 +53,7 @@
   <script type="text/javascript" src="../natacha-ui/app/bower_components/angular-spinner/angular-spinner.js"></script>
   <script type="text/javascript" src="../natacha-ui/app/bower_components/angular-loading-spinner/angular-loading-spinner.js"></script>
   <script type="text/javascript" src="../natacha-ui/app/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
   <script type="text/javascript" src="../natacha-ui/app/bower_components/angular-datatables/dist/angular-datatables.min.js"></script>
   <script type="text/javascript" src="../natacha-ui/app/app.js"></script> 
   <script type="text/javascript" src="../natacha-ui/app/dashboard/index.js"></script>
@@ -63,6 +64,11 @@
   <script type="text/javascript" src="../natacha-ui/app/dossier/list/listController.js"></script>
   <script type="text/javascript" src="../natacha-ui/app/dossier/create/createController.js"></script>
   <script type="text/javascript" src="../natacha-ui/app/dossier/update/updateController.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/document/index.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/document/Api.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/document/list/listController.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/document/create/createController.js"></script>
+  <script type="text/javascript" src="../natacha-ui/app/document/update/updateController.js"></script>
   <script type="text/javascript" src="../natacha-ui/app/component/component.js"></script>
 </body>
 </html>

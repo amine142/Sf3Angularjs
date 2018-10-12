@@ -36,3 +36,26 @@
         </div>
     </div>
 </form>
+
+<hr>
+<table class="table table-hover table-responsive" datatable="ng"  class="row-border hover">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>Title</th>
+        <th>Options</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="document in dossier.documents">
+        <td>{{ document.id }}</td>
+        <td>{{ document.title }}</td>
+        <td>
+            <a href="#!documents/update/{{ dossier.id }}/{{ document.id }}" class="btn btn-default btn-sm">Edit Document</a>
+            <a href="" ng-click="remove(dossier.id)" class="btn btn-danger btn-sm">Delete Document</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<a ng-click="openModal(dossier.id, 'dossier' )" class="btn btn-lg btn-success">New Document</a>

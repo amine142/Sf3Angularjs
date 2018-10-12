@@ -1,6 +1,9 @@
 dossier:
     type: rest
     resource: AppBundle\Controller\DossierController
+document:
+    type: rest
+    resource: AppBundle\Controller\DocumentController
 dash_board:
     type: rest
     resource: AppBundle\Controller\DashBoardController

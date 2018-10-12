@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMSSerializer;
+use JMS\Serializer\Annotation\Type;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\DossierRepository")
@@ -32,7 +33,21 @@ class Dossier implements \JsonSerializable
      */
     private $body;
 
+    /** 
+     * @ORM\Column(type="object", name="documents")
+     * @Type("ArrayCollection<AppBundle\Entity\Document>")
+     * @JMSSerializer\Expose
+     */
+    private $documents;
 
+    /**
+     * @param mixed $body
+     * @return Dossier
+     */
+    public function __construct() 
+    {
+        $this->documents = new \Doctrine\Common\Collections\ArrayCollection(array());
+    }
     /**
      * @return int
      */
@@ -79,6 +94,33 @@ class Dossier implements \JsonSerializable
         return $this;
     }
 
+    
+
+
+    /**
+     * Set documents.
+     *
+     * @param \stdClass $documents
+     *
+     * @return Dossier
+     */
+    public function setDocuments($documents)
+    {
+        $this->documents = $documents;
+
+        return $this;
+    }
+
+    /**
+     * Get documents.
+     *
+     * @return \stdClass
+     */
+    public function getDocuments()
+    {
+        return $this->documents;
+    }
+    
     /**
      * @return mixed
      */
@@ -88,7 +130,7 @@ class Dossier implements \JsonSerializable
             'id'    => $this->id,
             'title' => $this->title,
             'body'  => $this->body,
+            'documents' => $this->documents
         ];
     }
-
 }

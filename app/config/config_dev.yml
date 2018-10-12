@@ -38,5 +38,9 @@ monolog:
 bazinga_faker:
     orm: doctrine
     entities:
+        AppBundle\Entity\Document:
+            number: 50
         AppBundle\Entity\Dossier:
             number: 50
+            custom_formatters:
+                  Documents: { method: randomElement, parameters: [ [ 'Tzo0MzoiRG9jdHJpbmVcQ29tbW9uXENvbGxlY3Rpb25zXEFycmF5Q29sbGVjdGlvbiI6MTp7czo1MzoiAERvY3RyaW5lXENvbW1vblxDb2xsZWN0aW9uc1xBcnJheUNvbGxlY3Rpb24AZWxlbWVudHMiO2E6MDp7fX0=' ] ] }

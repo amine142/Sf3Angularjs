@@ -11,6 +11,11 @@ services:
         factory: ["@doctrine", getRepository]
         arguments:
             - AppBundle\Entity\Dossier
+    crv.doctrine_entity_repository.documents:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - AppBundle\Entity\Document        
     natacha.sso_user_provider:
         class: "%natacha.sso_user_provider.class%"
         arguments: ["@doctrine.orm.entity_manager", "@service_container"]
