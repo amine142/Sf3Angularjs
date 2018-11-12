@@ -15,8 +15,8 @@ angular.module('app.document')
                 return $http.get(ROOT_URL);
             }
 
-            function post(document, id, item) {
-                return $http.post(ROOT_URL+'/'+id+'/items/'+item, document);
+            function post(document) {
+                return $http.post(ROOT_URL, document);
             }
 
             function put(id, data) {

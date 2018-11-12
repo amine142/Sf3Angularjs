@@ -10,6 +10,10 @@ angular.module('app.document', ['ngRoute', 'ngLoadingSpinner'])
                 templateUrl: 'document/create/create.html',
                 controller: 'createController'
             })
+             .when('/documents/update/:id', {
+                templateUrl: 'document/update/update.html',
+                controller: 'updateController'
+            })
         ;
 
     }]);

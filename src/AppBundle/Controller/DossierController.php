@@ -43,7 +43,7 @@ class DossierController extends FOSRestController implements ClassResourceInterf
      *         404 = "Return when not found"
      *     }
      * )
-     * @Security("has_role('ROLE_REDACTEUR')")
+     * 
      */
     public function getAction(int $id)
     {

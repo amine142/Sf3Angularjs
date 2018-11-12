@@ -43,7 +43,7 @@ class DocumentController extends FOSRestController implements ClassResourceInter
      *         404 = "Return when not found"
      *     }
      * )
-     * @Security("has_role('ROLE_REDACTEUR')")
+     *
      */
     public function getAction(int $id)
     {
@@ -78,8 +78,7 @@ class DocumentController extends FOSRestController implements ClassResourceInter
 
     /**
      * @param Request $request
-     * @param int     $id
-     * @param string     $item
+   
      * @return View|\Symfony\Component\Form\Form
      *
      * @ApiDoc(
@@ -91,12 +90,14 @@ class DocumentController extends FOSRestController implements ClassResourceInter
      *     }
      * )
      */
-    public function postItemAction(Request $request, int $id, string $item)
+    public function postAction(Request $request)
     {
-       
+        $parent = $request->request->get('parent');
+        $item = $request->request->get('item');
+        
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('AppBundle\\Entity\\'. ucfirst($item).'');
-        $object = $repository->find($id);
+        $object = $repository->find($parent);
         $documents = unserialize(base64_decode($object->getDocuments()));
         
         $form = $this->createForm(DocumentType::class, null, [
@@ -114,7 +115,6 @@ class DocumentController extends FOSRestController implements ClassResourceInter
          */
         $document = $form->getData();
         
-        $em = $this->getDoctrine()->getManager();
         $em->persist($document);
         $documents->add($document);
         $serialized = base64_encode(serialize($documents));
@@ -147,15 +147,26 @@ class DocumentController extends FOSRestController implements ClassResourceInter
      */
     public function putAction(Request $request, int $id)
     {
+        $parent = $request->request->get('parent');
+        $item = $request->request->get('item');
+       
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('AppBundle\\Entity\\'. ucfirst($item).'');
+        $object = $repository->find($parent);
+        $documents = unserialize(base64_decode($object->getDocuments()));
         /**
          * @var $document Document
          */
         $document = $this->getDocumentRepository()->find($id);
-
+        
         if ($document === null) {
             return new View(null, Response::HTTP_NOT_FOUND);
         }
-        
+       
+        $documents->removeElement($document);
+        $offest = array_search($document, $documents->toArray());
+        $documents->remove($offest);
+      
         $form = $this->createForm(DocumentType::class, $document, [
             'csrf_protection' => false,
         ]);
@@ -167,7 +178,10 @@ class DocumentController extends FOSRestController implements ClassResourceInter
         }
 
         
-        $em = $this->getDoctrine()->getManager();
+        $documents->add($document);
+        $serialized = base64_encode(serialize($documents));
+        $object->setDocuments($serialized);
+        $em->persist($object);
         $em->flush();
 
         $routeOptions = [

@@ -40,15 +40,17 @@ angular.module('app.dossier')
                     window.history.back();
                 };
 
-                $scope.openModal = function (id, item) {
+                $scope.openModal = function (id, child , item) {
+                    var template = (child !== null)? 'document/update/update.html':'document/create/create.html'
                     $uibModal.open({
-                        templateUrl: 'document/create/create.html',
+                        templateUrl: template,
                         controller: function ($scope, $uibModalInstance) {
 
-                            $scope.id_demande = id;
+                            $scope.parent = id;
                             $scope.item = item;
+                            $scope.child = child;
                             $scope.cancel = function () {
-                                $uibModalInstance.dismiss('cancel');
+                                $uibModalInstance.close(false);
                             };
                         }
                     })

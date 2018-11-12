@@ -51,11 +51,11 @@
         <td>{{ document.id }}</td>
         <td>{{ document.title }}</td>
         <td>
-            <a href="#!documents/update/{{ dossier.id }}/{{ document.id }}" class="btn btn-default btn-sm">Edit Document</a>
+            <a ng-click="openModal(dossier.id, document.id , 'dossier' )" class="btn btn-default btn-sm">Edit Document</a>
             <a href="" ng-click="remove(dossier.id)" class="btn btn-danger btn-sm">Delete Document</a>
         </td>
     </tr>
     </tbody>
 </table>
 
-<a ng-click="openModal(dossier.id, 'dossier' )" class="btn btn-lg btn-success">New Document</a>
+<a ng-click="openModal(dossier.id, null , 'dossier' )" class="btn btn-lg btn-success">New Document</a>

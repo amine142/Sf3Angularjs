@@ -18,7 +18,8 @@ class DocumentType extends AbstractType
         $builder
             ->add('title', TextType::class)
             ->add('path', TextType::class)
-        ;
+            ->add('referrer', TextType::class, ['mapped' => false]) 
+            ->add('type', TextType::class, ['mapped' => false]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
