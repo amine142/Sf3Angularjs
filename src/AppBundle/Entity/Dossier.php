@@ -8,7 +8,7 @@ use JMS\Serializer\Annotation\Type;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\DossierRepository")
- * @ORM\Table(name="dossier")
+ * @ORM\Table(name="public.dossier")
  * @JMSSerializer\ExclusionPolicy("all")
  */
 class Dossier implements \JsonSerializable

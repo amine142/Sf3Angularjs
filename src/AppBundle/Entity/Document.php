@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation as JMSSerializer;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\DocumentRepository")
- * @ORM\Table(name="document")
+ * @ORM\Table(name="public.document")
  * @JMSSerializer\ExclusionPolicy("all")
  */
 class Document implements \JsonSerializable

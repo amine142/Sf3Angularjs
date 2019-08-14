@@ -1,0 +1,39 @@
+version: "2"
+networks:
+  backend:
+services:
+  postgres:
+    
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - backend
+  web_back:
+      build:
+        context: ./docker/
+        dockerfile: 'Dockerfile'
+      restart: "unless-stopped"
+      hostname: 'sfangularjs'
+      depends_on:
+        - postgres
+      ports:
+        - '8082:80'
+      tty: true
+      networks:
+        - backend
+      volumes:
+        - ./:/var/www/html/SfAngularJs
+        
+volumes:
+    postgres:
+    web_back:

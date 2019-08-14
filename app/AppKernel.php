@@ -41,20 +41,7 @@ class AppKernel extends Kernel
         return __DIR__;
     }
 
-    public function getCacheDir()
-	{
-		if (in_array($this->environment, array('dev', 'test'))) {
-			return '/dev/shm/natacha/cache/' .  $this->environment;
-		}
-		return $this->getRootDir().'/../var/cache/';
-	}
-	public function getLogDir()
-	{
-		if (in_array($this->environment, array('dev', 'test'))) {
-			return '/dev/shm/natacha/logs';
-		}
-		return $this->getRootDir().'/../var/logs/';
-	}
+    
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {

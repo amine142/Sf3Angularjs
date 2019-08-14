@@ -12,7 +12,7 @@ use JMS\Serializer\Annotation as JMSSerializer;
 /**
  * Redacteur
  *
- * @ORM\Table(name="utilisateur")
+ * @ORM\Table(name="public.utilisateur")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\UserRepository")
  * @UniqueEntity(
  *     fields={"email"},
