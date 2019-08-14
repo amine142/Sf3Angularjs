@@ -34,10 +34,10 @@
 /build/
 
 # Bower components
-/web/natacha-ui/bower_components/
+/web/web-ui/bower_components/
 
 # Node modules
-/web/natacha-ui/node_modules/
+/web/web-ui/node_modules/
 
 # Codeception output
 /tests/_output/*
