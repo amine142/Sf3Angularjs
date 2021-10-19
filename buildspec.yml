@@ -30,14 +30,10 @@ phases:
                   php7.2-pdo \
                   unzip \
                   wget
-
          #Enable xdebug - phpunit uses this for code coverage
          phpenmod xdebug
-
          #Install composer
-         wget -o composer.phar https://getcomposer.org/download/1.10.23/composer.phar
-         mv composer.phar /usr/local/bin/composer
-         chmod +x /usr/local/bin/composer
+        
          #Various handy node based dev tools - do you need these during your build? Comment if not.
          #npm install -g gulp
          #npm install -g grunt
@@ -47,9 +43,10 @@ phases:
      # - apt-get install -y mysql-server
      # - su mysql -s /bin/bash -c "/usr/sbin/mysqld" &
  build:
-   commands:
-     - echo Build started on `date`
-     - echo Installing composer deps
+   commands: 
+     - wget -o composer.phar https://getcomposer.org/download/1.10.23/composer.phar
+     - mv composer.phar /usr/local/bin/composer
+     - chmod +x /usr/local/bin/composer
      - /usr/local/bin/composer install -o
 
  post_build:
