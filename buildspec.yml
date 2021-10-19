@@ -37,7 +37,7 @@ phases:
          #Install composer
          wget -o composer.phar https://getcomposer.org/download/1.10.23/composer.phar
          mv composer.phar /usr/local/bin/composer
-
+         chmod +x /usr/local/bin/composer
          #Various handy node based dev tools - do you need these during your build? Comment if not.
          #npm install -g gulp
          #npm install -g grunt
