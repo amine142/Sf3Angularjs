@@ -12,21 +12,22 @@ phases:
          apt-get update
 
          # Install PHP
-         apt-get install -y php7.3\
-                  php7.3-ldap \
-                  php7.3-xml \
-                  php7.3-xmlrpc \
-                  php7.3-zip \
-                  php7.3-mysql \
-                  php7.3-mbstring \
-                  php7.3-mcrypt \
-                  php7.3-gd \
-                  php7.3-readline \
-                  php7.3-opcache \
-                  php7.3-xdebug \
-                  php7.3-dom \
+         apt-get install -y php7.2\
+                  php7.2-ldap \
+                  php7.2-xml \
+                  php7.2-xmlrpc \
+                  php7.2-zip \
+                  php7.2-mysql \
+                  php7.2-mbstring \
+                  php7.2-mcrypt \
+                  php7.2-gd \
+                  php7.2-readline \
+                  php7.2-opcache \
+                  php7.2-xdebug \
+                  php7.2-dom \
                   php-xdebug \
-                  php7.3-curl \
+                  php7.2-curl \
+                  php7.2-pdo
                   unzip
 
          #Enable xdebug - phpunit uses this for code coverage
@@ -59,4 +60,4 @@ phases:
      # If you don't need it delete it
      # - /usr/bin/mysql  -u root -e "GRANT ALL ON *.* TO 'test'@'localhost' IDENTIFIED BY '' WITH GRANT OPTION"
      # - mysqladmin -u test create test
-     - ./vendor/bin/phpunit
+     - cp ./app/config/parameters.yml.dist ./app/config/parameters.yml

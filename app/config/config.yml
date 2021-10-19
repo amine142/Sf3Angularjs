@@ -38,6 +38,7 @@ framework:
     fragments:       ~
     http_method_override: true
     assets: ~
+    session: ~
 
 # Twig Configuration
 twig:

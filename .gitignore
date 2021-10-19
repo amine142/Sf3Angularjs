@@ -42,3 +42,4 @@
 # Codeception output
 /tests/_output/*
 
+/nbproject/private/
