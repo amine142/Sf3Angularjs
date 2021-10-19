@@ -50,7 +50,7 @@ phases:
    commands:
      - echo Build started on `date`
      - echo Installing composer deps
-     - composer install -o
+     - /usr/local/bin/composer install -o
 
  post_build:
    commands:
