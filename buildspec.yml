@@ -12,22 +12,22 @@ phases:
          apt-get update
 
          # Install PHP
-         apt-get install -y php7.2\
-                  php7.2-ldap \
-                  php7.2-xml \
-                  php7.2-xmlrpc \
-                  php7.2-zip \
-                  php7.2-mysql \
-                  php7.2-mbstring \
-                  php7.2-mcrypt \
-                  php7.2-gd \
-                  php7.2-readline \
-                  php7.2-opcache \
-                  php7.2-xdebug \
-                  php7.2-dom \
+         apt-get install -y php7.4\
+                  php7.4-ldap \
+                  php7.4-xml \
+                  php7.4-xmlrpc \
+                  php7.4-zip \
+                  php7.4-mysql \
+                  php7.4-mbstring \
+                  php7.4-mcrypt \
+                  php7.4-gd \
+                  php7.4-readline \
+                  php7.4-opcache \
+                  php7.4-xdebug \
+                  php7.4-dom \
                   php-xdebug \
-                  php7.2-curl \
-                  php7.2-pdo \
+                  php7.4-curl \
+                  php7.4-pdo \
                   unzip \
                   wget
          #Enable xdebug - phpunit uses this for code coverage
@@ -46,6 +46,7 @@ phases:
    commands: 
      - cp ./app/config/parameters.yml.dist ./app/config/parameters.yml
      - composer install -o
+     - composer update -o
 
  post_build:
    commands:
